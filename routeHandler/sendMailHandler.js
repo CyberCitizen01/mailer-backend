@@ -67,4 +67,40 @@ router.get(
     }
 )
 
+router.get(
+    "/sent/:id",
+    auth,
+    async (req,res)=>{
+        const id = req.params.id;
+        try {
+            let user = await User.findOne({
+                "sentMails.mail.id": id,
+            })
+            if (!user)
+            return res.status(400).json({
+              message: "User Not Exist"
+            });
+            let findIndex = ()=>{
+                for(let i=0;i<user.sentMails.length;i++){
+                    if(user.sentMails[i].mail.id == id){
+                        return i;
+                    }
+                }
+                return undefined;
+            }
+            const index = findIndex()
+            if (!index)
+            return res.status(400).json({
+                message: "mail doesn't exist"
+            })
+            res.status(200).json({
+                mail: user.sentMails[index],
+            })            
+        } catch (e) {
+            console.log('/sent/:id fail',e);
+            res.send({ message: "Error in sending" })
+        }
+    }
+)
+
 module.exports = router
