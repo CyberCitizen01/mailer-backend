@@ -30,7 +30,7 @@ const SentMailsSchema = new mongoose.Schema({
   mail: MailSchema,
   sentAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now(),
   },
 })
 
@@ -38,9 +38,11 @@ const ScheduledMailsSchema = new mongoose.Schema({
   mail: MailSchema,
   sentAt: {
     type: Date,
+    required: true,
   },
   scheduledTo: {
     type: Date,
+    required: true,
   },
 })
 
@@ -52,6 +54,7 @@ const RecurringMailsSchema = new mongoose.Schema({
   },
   recurringPeriod: {
     type: String,
+    required: true,
   },
 })
 
