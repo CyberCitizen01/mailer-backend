@@ -47,6 +47,24 @@ router.post(
         }
     })
 
-
+router.get(
+    "/sent",
+    auth,
+    async (req,res)=>{
+        try {
+            let user = await User.findById(req.user.id);
+            if (!user)
+            return res.status(400).json({
+              message: "User Not Exist"
+            });
+            res.status(200).json({
+                allMails: user.sentMails,
+            })
+        } catch (e) {
+            console.log('/sent fail',e);
+            res.send({ message: "Error in sending" })
+        }
+    }
+)
 
 module.exports = router
