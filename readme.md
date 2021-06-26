@@ -16,7 +16,7 @@
 
 ## API Reference
 Note: Parameters are to be included in the name attribute of respective input elements.
-Note: Except `/register` and `/logins` for all other routes, it is expected to have token in the request header.
+Note: Except for `/register` and `/login`, for all other routes, it is expected to have token in the request header as `token:<the-token>` .
 #### Register
 
 ```http
@@ -66,7 +66,8 @@ Returns the id of the just stored mail
 | Parameters | Type     | Description                       |
 | :--------  | :------- | :-------------------------------- |
 | -- | -- | -- |
-Returns all the mails
+
+Returns all the mails, that are sent
 
 ### Get the mail that is sent with id
 ```http
