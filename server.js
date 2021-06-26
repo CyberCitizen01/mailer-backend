@@ -6,24 +6,19 @@ const server = http.createServer(app);
 
 const {PORT} = require('./config/config');
 
-const registerRouter = require('./routes/registerRouter')
-const InitiateMongoServer = require("./config/db");
+const registerLoginHandler = require('./routeHandler/registerLoginHandler')
+const scheduleMailHandler = require('./routeHandler/scheduleMailHandler')
+const sendMailHandler = require('./routeHandler/sendMailHandler')
 
-InitiateMongoServer();
+require('./config/db')();
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json());
 
-app.use('/api/user/',registerRouter);
+app.use('/api/',registerLoginHandler);
+app.use('/api/schedule/mail/',scheduleMailHandler);
+app.use('/api/send/mail/',sendMailHandler)
 
 server.listen(PORT,()=>{
     console.log(`Server running on port:${PORT}`);
 });
-
-// we want the api to have login/signup and google signin
-// GET at / -> u need to login/register
-// POST at /register -> take username and password and store them (hashed password)
-// POST at /login -> take username and password and check them and give a respones
-// /history -> all
-// /history:id -> 
-// /

@@ -1,17 +1,16 @@
 const mongoose = require('mongoose');
-const {MONGO_USERNAME, MONGO_PASSWORD} = require('../config/config');
-const uri = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.poplm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-const InitiateMongoServer = async () => {
+const {MONGO} = require('../config/config');
+const uri = `mongodb+srv://${MONGO.USERNAME}:${MONGO.PASSWORD}@${MONGO.CLUSTER}.poplm.mongodb.net/${MONGO.DB}?retryWrites=true&w=majority`;
+
+module.exports =  InitiateMongoServer = async () => {
     try {
       await mongoose.connect(uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true
       });
-      console.log("Connected to DB");
+      console.log(`Connected to db: ${MONGO.DB} at cluster: ${MONGO.CLUSTER}`);
     } catch (e) {
       console.log(e);
       throw e;
     }
   };
-  
-  module.exports = InitiateMongoServer;
