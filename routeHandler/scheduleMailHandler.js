@@ -66,7 +66,7 @@ router.get(
             })
         } catch (e) {
             console.log('/scheduled fail',e);
-            res.send({ message: "Error in sending" })
+            res.send({ message: "Error in fetching" })
         }
     }
 )
@@ -93,17 +93,17 @@ router.get(
                 return undefined;
             }
             const index = findIndex()
-            if (!index)
+            if (index === undefined)
             return res.status(400).json({
                 message: "mail doesn't exist"
             })
-            console.log('/scheduled/:id success',result);
+            console.log('/scheduled/:id success');
             res.status(200).json({
                 mail: user.scheduledMails[index],
             })            
         } catch (e) {
             console.log('/scheduled/:id fail',e);
-            res.send({ message: "Error in sending" })
+            res.send({ message: `Error in fetching ${id}` })
         }
     }
 )

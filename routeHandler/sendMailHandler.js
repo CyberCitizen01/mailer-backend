@@ -62,7 +62,7 @@ router.get(
             })
         } catch (e) {
             console.log('/sent fail',e);
-            res.send({ message: "Error in sending" })
+            res.send({ message: "Error in fetching" })
         }
     }
 )
@@ -89,7 +89,7 @@ router.get(
                 return undefined;
             }
             const index = findIndex()
-            if (!index)
+            if (index === undefined)
             return res.status(400).json({
                 message: "mail doesn't exist"
             })
@@ -98,7 +98,7 @@ router.get(
             })            
         } catch (e) {
             console.log('/sent/:id fail',e);
-            res.send({ message: "Error in sending" })
+            res.send({ message: `Error in fetching ${id}` })
         }
     }
 )
