@@ -4,6 +4,9 @@ const express = require('express');
 const app = express();
 // const server = http.createServer(app);
 
+const cors = require('cors');
+app.use(cors())
+
 const {PORT} = require('./config/config');
 
 const registerLoginHandler = require('./routeHandler/registerLoginHandler')
