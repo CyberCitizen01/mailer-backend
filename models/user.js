@@ -38,7 +38,7 @@ const ScheduledMailsSchema = new mongoose.Schema({
   mail: MailSchema,
   sentAt: {
     type: Date,
-    required: true,
+    default: Date.now(),
   },
   scheduledTo: {
     type: Date,

@@ -5,7 +5,7 @@ const auth = require('../middlewares/auth');
 const User = require('../models/user');
 
 router.post(
-    "/schedule",
+    "/recurring",
     [
         check("to", "Please enter a valid address").isEmail(),
         check("cc", "Please enter a valid cc").isString(),
@@ -14,7 +14,7 @@ router.post(
             max: 30
         }),
         check("body", "Please enter a valid body").not().isEmpty(),
-        check("scheduledTo", "Please enter a valid Date").isDate(),
+        check("recurringPeriod", "Please enter a valid period").not().isEmpty(),
     ],
     auth,
     async (req,res)=>{
@@ -25,7 +25,7 @@ router.post(
             });
         }
         const mail = {to, cc, bcc, subject, body} = req.body;
-        const {scheduledTo} = req.body;
+        const {recurringPeriod} = req.body;
         mail.cc = mail.cc.split(',')
         mail.bcc = mail.bcc.split(',')
         try {
@@ -34,24 +34,24 @@ router.post(
             return res.status(400).json({
               message: "User Not Exist"
             });
-            user.scheduledMails.push({
+            user.recurringMails.push({
                 mail,
-                scheduledTo,
+                recurringPeriod,
             })
             const result = await user.save()
-            console.log('/schedule success',result);
+            console.log('/recurring success',result);
             res.status(200).json({
                 message: "Your mail is sent",
-                id:result.scheduledMails[result.scheduledMails.length - 1].mail.id
+                id:result.recurringMails[result.recurringMails.length - 1].mail.id
             })
         } catch (e) {
-            console.log('/schedule fail',e);
+            console.log('/recurring fail',e);
             res.send({ message: "Error in sending" })
         }
     })
 
 router.get(
-    "/scheduled",
+    "/recurring",
     auth,
     async (req,res)=>{
         try {
@@ -60,33 +60,33 @@ router.get(
             return res.status(400).json({
               message: "User Not Exist"
             });
-            console.log('/scheduled success',result);
+            console.log('/recurring success',result);
             res.status(200).json({
-                allMails: user.scheduledMails,
+                allMails: user.recurringMails,
             })
         } catch (e) {
-            console.log('/scheduled fail',e);
+            console.log('/recurring fail',e);
             res.send({ message: "Error in sending" })
         }
     }
 )
 
 router.get(
-    "/scheduled/:id",
+    "/recurring/:id",
     auth,
     async (req,res)=>{
         const id = req.params.id;
         try {
             let user = await User.findOne({
-                "scheduledMails.mail.id": id,
+                "recurringMails.mail.id": id,
             })
             if (!user)
             return res.status(400).json({
               message: "User Not Exist"
             });
             let findIndex = ()=>{
-                for(let i=0;i<user.scheduledMails.length;i++){
-                    if(user.scheduledMails[i].mail.id == id){
+                for(let i=0;i<user.recurringMails.length;i++){
+                    if(user.recurringMails[i].mail.id == id){
                         return i;
                     }
                 }
@@ -97,12 +97,12 @@ router.get(
             return res.status(400).json({
                 message: "mail doesn't exist"
             })
-            console.log('/scheduled/:id success',result);
+            console.log('/recurring/:id success',result);
             res.status(200).json({
-                mail: user.scheduledMails[index],
+                mail: user.recurringMails[index],
             })            
         } catch (e) {
-            console.log('/scheduled/:id fail',e);
+            console.log('/recurring/:id fail',e);
             res.send({ message: "Error in sending" })
         }
     }

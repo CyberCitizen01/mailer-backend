@@ -9,6 +9,7 @@ const {PORT} = require('./config/config');
 const registerLoginHandler = require('./routeHandler/registerLoginHandler')
 const scheduleMailHandler = require('./routeHandler/scheduleMailHandler')
 const sendMailHandler = require('./routeHandler/sendMailHandler')
+const recurrMailHandler = require('./routeHandler/recurrMailHandler')
 
 require('./config/db')();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use('/api/',registerLoginHandler);
 app.use('/api/schedule/mail/',scheduleMailHandler);
 app.use('/api/send/mail/',sendMailHandler)
+app.use('/api/recurr/mail/',recurrMailHandler)
 
 server.listen(PORT,()=>{
     console.log(`Server running on port:${PORT}`);
