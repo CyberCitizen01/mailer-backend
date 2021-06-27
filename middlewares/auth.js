@@ -8,6 +8,7 @@ module.exports = function(req, res, next) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded.user;
+    console.error('ok heroku it is working', token, decoded.user.id);
     next();
   } catch (e) {
     console.error(e);
