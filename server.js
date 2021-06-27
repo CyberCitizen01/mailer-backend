@@ -1,8 +1,8 @@
 const express = require('express');
-const http = require('http');
+// const http = require('http');
 
 const app = express();
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 const {PORT} = require('./config/config');
 
@@ -26,6 +26,6 @@ app.use('/api/schedule/mail/',scheduleMailHandler);
 app.use('/api/send/mail/',sendMailHandler)
 app.use('/api/recurr/mail/',recurrMailHandler)
 
-server.listen(PORT,()=>{
+app.listen(PORT,()=>{
     console.log(`Server running on port:${PORT}`);
 });
